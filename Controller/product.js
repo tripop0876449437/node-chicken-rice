@@ -21,11 +21,10 @@ const s3 = new AWS.S3({
 });
 
 // Function to upload file to Amazon S3
-async function uploadFile(filename, data) {
+async function uploadFile(filename, data, bucketName) {
   try {
-    let bucketName = bucketNames;
     const path = `uploads/${filename}`;
-    console.log('bucketNames:', bucketNames);
+    console.log('bucketNames:', bucketName);
     const params = {
       Bucket: bucketName,
       Key: path,
@@ -184,7 +183,7 @@ exports.addProduct = [
       // fs.writeFileSync(filePath, imageData);
 
       // Write the file data to the specified path To S3
-      const imageUrl = await uploadFile(imageName, imageData);
+      const imageUrl = await uploadFile(imageName, imageData, bucketNames);
 
       // Use a database transaction for atomicity
       const client = await pool.connect();
