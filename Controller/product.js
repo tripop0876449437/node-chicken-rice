@@ -23,7 +23,7 @@ async function uploadFile(filename, data) {
   try {
     const bucketName = bucketNames;
     const path = `uploads/${filename}`;
-
+    console.log('bucketNames:', bucketNames);
     const params = {
       Bucket: bucketName,
       Key: path,
