@@ -4,7 +4,9 @@ const upload = multer();
 const fs = require('fs');
 const path = require('path');
 const AWS = require('aws-sdk');
-require('dotenv').config();
+const dotenv = require('dotenv');
+
+dotenv.config(); // Load environment variables from .env file
 
 const accessKeyIds = process.env.AWS_ACCESS_KEY_ID;
 const secretAccessKeys = process.env.AWS_SECRET_ACCESS_KEY;
