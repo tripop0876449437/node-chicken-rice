@@ -9,9 +9,9 @@ const dotenv = require('dotenv');
 dotenv.config(); // Load environment variables from .env file
 
 const accessKeyIds = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKeys = process.env.AWS_SECRET_ACCESS_KEY;
-const bucketNames = process.env.BUCKET_NAME;
-const regions = process.env.AWS_REGION;
+let secretAccessKeys = process.env.AWS_SECRET_ACCESS_KEY;
+let bucketNames = process.env.BUCKET_NAME;
+let regions = process.env.AWS_REGION;
 
 // Configure AWS SDK with your credentials and S3 region
 const s3 = new AWS.S3({
@@ -23,7 +23,7 @@ const s3 = new AWS.S3({
 // Function to upload file to Amazon S3
 async function uploadFile(filename, data) {
   try {
-    const bucketName = bucketNames;
+    let bucketName = bucketNames;
     const path = `uploads/${filename}`;
     console.log('bucketNames:', bucketNames);
     const params = {
