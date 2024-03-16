@@ -1,0 +1,30 @@
+# Dependency directories
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn.lock
+
+Environment variables file
+.env
+
+# Build files
+dist/
+build/
+out/
+
+# Log files
+*.log
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Mac OS specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# ngrok executable
+ngrok.exe
+.vercel
