@@ -288,7 +288,7 @@ exports.searchProducts = async (req, res) => {
       productName: row.product_name,
       price: row.price,
       description: row.description,
-      imageUrl: `/api/product/image-sp/${row.image_id}`,
+      imageUrl: `https://chicken-rice-store.s3.ap-southeast-1.amazonaws.com/uploads/${row.imageName}`,
       category: { id: row.category_id, name: row.category_name } // Use category_name
     }));
 
