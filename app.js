@@ -7,8 +7,8 @@ const { createTables } = require('./Model/db');
 const app = express();
 const port = 4000;
 
-// const allowedOrigins = ['http://localhost:3000', 'https://nextjs-chickenrice-vercel.vercel.app'];
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000', 'https://nextjs-chickenrice-vercel.vercel.app'];
+// const allowedOrigins = ['http://localhost:3000'];
 
 const corsOptions = {
   origin: function (origin, callback) {
