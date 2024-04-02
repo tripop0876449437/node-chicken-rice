@@ -4,19 +4,19 @@ const { pool } = require('../Model/db');
 exports.addStoreSales = async (req, res) => {
   try {
     // Extract data from the request body
-    const { storeSalesQuantity, storeSalesPrice, roleStoreSales, orderTotal_id } = req.body;
-    console.log(storeSalesQuantity);
+    const { storeSalesQuantity, storeSalesPrice, roleStoreSales, orderProductAndTotal_id } = req.body;
+    console.log(orderProductAndTotal_id);
 
     // Validate the incoming data (optional)
     // Your validation logic goes here
 
     // Execute the database query to insert the store sales data
     const insertStoreSalesQuery = `
-      INSERT INTO storeSales (storeSalesQuantity, storeSalesPrice, roleStoreSales, orderTotal_id)
+      INSERT INTO storeSales (storeSalesQuantity, storeSalesPrice, roleStoreSales, orderProductAndTotal_id)
       VALUES ($1, $2, $3, $4)
       RETURNING id;
     `;
-    const { rows } = await pool.query(insertStoreSalesQuery, [storeSalesQuantity, storeSalesPrice, roleStoreSales, orderTotal_id]);
+    const { rows } = await pool.query(insertStoreSalesQuery, [storeSalesQuantity, storeSalesPrice, roleStoreSales, orderProductAndTotal_id]);
 
     // Check if the store sales data was inserted successfully
     if (rows.length === 0) {

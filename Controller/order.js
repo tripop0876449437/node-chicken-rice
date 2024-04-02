@@ -280,8 +280,10 @@ exports.getOrderTotal = async (req, res) => {
 
 exports.getOrderTotalPagination = async (req, res) => {
   try {
-    let { search } = req.body;
+    let { search, startDate, endDate } = req.body;
     search = search || '';
+    const startDateCondition = startDate ? ' AND ot.created_at >= $2': '';
+    const endDateCondition = endDate ? ' AND ot.created_at <= $3': '';
     const getOrderTotalQuery = `
     SELECT
         opat.id AS opat_id, opat.orderProduct_id AS opat_orderProduct_id, opat.orderTotal_id AS opat_orderTotal_id,
@@ -300,13 +302,21 @@ exports.getOrderTotalPagination = async (req, res) => {
     JOIN imageProducts ip ON ol.imageProduct_id = ip.id
     JOIN products pd ON ip.product_id = pd.id
     WHERE ct.tablename ILIKE $1
+    ${startDateCondition}
+    ${endDateCondition}
     ORDER BY opat.id
     `;
-    const { rows } = await pool.query(getOrderTotalQuery, [`%${search}%`]);
+
+    const queryParams = [`%${search}%`]
+    if (startDate) queryParams.push(startDate);
+    if (endDate) queryParams.push(endDate)
+
+    const { rows } = await pool.query(getOrderTotalQuery, queryParams);
     // console.log('rows: ', rows);
 
     // Constructing the response
     const orderTotal = [];
+    let totalMoneyAll = 0;
     let currentOrderId = null;
     let currentOrder = null;
 
@@ -335,6 +345,8 @@ exports.getOrderTotalPagination = async (req, res) => {
         orderProductQuantity: row.op_orderproductquantity,
         orderProductPrice: row.op_orderproductprice
       });
+      // Calculate totalMoneyAll
+      totalMoneyAll += row.ot_ordertotalprice;
     });
 
     // Add the last order to the list
@@ -343,7 +355,7 @@ exports.getOrderTotalPagination = async (req, res) => {
     }
 
     // console.log('orderTotal', orderTotal);
-    res.status(200).json({status: 200, orderTotals: orderTotal })
+    res.status(200).json({status: 200, orderTotals: orderTotal, totalMoneyAll: totalMoneyAll })
     // res.status(200).json({ message: "success" })
   } catch (error) {
     console.log(error);
